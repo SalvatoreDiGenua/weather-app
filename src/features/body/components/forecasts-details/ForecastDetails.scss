@@ -1,0 +1,33 @@
+.wrap-forecasts-detail {
+
+  .p-dataview-content {
+    padding: 16px 8px;
+  }
+
+  .forecast-detail {
+    height: 30px;
+    padding: 8px 16px;
+    display: grid;
+    grid-template-areas: "day temperature";
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    line-height: 1;
+
+
+    &__day {
+      grid-area: day;
+    }
+
+    &__temperature {
+      grid-area: temperature;
+      display: flex;
+      gap: 3px;
+    }
+
+    &__temperature-min,
+    &__temperature-max {
+      min-width: 40px;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,1 @@
+export const WEATHER_BASE_API_URL = "http://dataservice.accuweather.com";
