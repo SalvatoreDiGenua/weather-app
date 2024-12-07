@@ -1,18 +1,29 @@
+import { useEffect, useState } from "react";
 import { City } from "../../models/City";
 import { CurrentCondition } from "../../models/CurrentCondition";
 import { Forecasts } from "../../models/Forecasts";
 import "./Body.scss";
 import ForecastDetails from "./components/forecasts-details/ForecastDetails";
+import {
+  getCurrentConditions,
+  getForecasts,
+} from "../../services/weather.service";
 
-function Body({
-  city,
-  currentCondition,
-  forecasts,
-}: {
-  city: City | null;
-  currentCondition: CurrentCondition | null;
-  forecasts: Forecasts | null;
-}) {
+function Body({ city }: { city: City | null }) {
+  const [currentCondition, setCurrentCondition] =
+    useState<CurrentCondition | null>(null);
+  const [forecasts, setForecasts] = useState<Forecasts | null>(null);
+
+  useEffect(() => {
+    if (!city?.id) {
+      setCurrentCondition(null);
+      setForecasts(null);
+      return;
+    }
+    getCurrentConditions(city.id).then(setCurrentCondition);
+    getForecasts(city.id).then(setForecasts);
+  }, [city]);
+
   return (
     <>
       {city && currentCondition && (
