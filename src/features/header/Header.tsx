@@ -36,7 +36,7 @@ function Header({
               field="name"
               value={city}
               suggestions={places}
-              placeholder="Search a city"
+              placeholder="Cerca una città"
               completeMethod={searchPlaces}
               onChange={(e) => updateCityState(e.value)}
             />
