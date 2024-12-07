@@ -15,13 +15,12 @@ function Header({
   city: City | null;
   updateCityState: Dispatch<SetStateAction<City | null>>;
 }) {
-  const [places, updatePlacesState] = useState<City[]>([]);
+  const [places, setPlacesState] = useState<City[]>([]);
 
   const searchPlaces = async (event: AutoCompleteCompleteEvent) => {
     const query = (event.query || "").toLocaleLowerCase();
-
     const cities = (await searchCity(query)) || [];
-    updatePlacesState(() =>
+    setPlacesState(() =>
       cities.map((el) => ({ name: el.LocalizedName, id: el.Key }))
     );
   };
