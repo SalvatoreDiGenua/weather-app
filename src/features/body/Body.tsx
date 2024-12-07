@@ -14,9 +14,8 @@ function Body({
   forecasts: Forecasts | null;
 }) {
   return (
-    city &&
-    currentCondition && (
-      <>
+    <>
+      {city && currentCondition && (
         <div className="weather-body">
           <div className="weather-body__title">
             <h1>
@@ -25,12 +24,12 @@ function Body({
             </h1>
             <h3>{currentCondition.WeatherText}</h3>
           </div>
-          <div className="weather-body__forecasts">
-            <ForecastDetails forecasts={forecasts} />
-          </div>
         </div>
-      </>
-    )
+      )}
+      <div className="weather-body__forecasts">
+        <ForecastDetails forecasts={forecasts} />
+      </div>
+    </>
   );
 }
 

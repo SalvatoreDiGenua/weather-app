@@ -2,9 +2,12 @@ import "./ForecastDetails.scss";
 import { DailyForecast, Forecasts } from "../../../../models/Forecasts";
 import { DataView } from "primereact/dataview";
 import { Divider } from "primereact/divider";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import HourlyForecastDetails from "../hourly-forecasts-detail/HourlyForecastDetails";
 
 function ForecastDetails({ forecasts }: { forecasts: Forecasts | null }) {
+  const [modalVisible, updateModalVisible] = useState<boolean>(false);
+
   const dailyForecastsTemplate = (dailyForecasts: DailyForecast[]) => {
     if (!dailyForecasts || dailyForecasts.length === 0) {
       return null;
@@ -53,12 +56,19 @@ function ForecastDetails({ forecasts }: { forecasts: Forecasts | null }) {
 
   return (
     <>
-      <div className="wrap-forecasts-detail">
-        <DataView
-          value={forecasts?.DailyForecasts}
-          listTemplate={dailyForecastsTemplate}
-        />
-      </div>
+      {forecasts?.DailyForecasts && (
+        <div className="wrap-forecasts-detail">
+          <DataView
+            value={forecasts?.DailyForecasts}
+            listTemplate={dailyForecastsTemplate}
+          />
+          <HourlyForecastDetails
+            hourlyForecasts={[]}
+            modalVisible={modalVisible}
+            updateModalVisible={updateModalVisible}
+          />
+        </div>
+      )}
     </>
   );
 }
