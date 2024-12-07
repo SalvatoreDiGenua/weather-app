@@ -4,8 +4,15 @@ import { DataView } from "primereact/dataview";
 import { Divider } from "primereact/divider";
 import { ReactNode, useState } from "react";
 import HourlyForecastDetails from "../hourly-forecasts-detail/HourlyForecastDetails";
+import { City } from "../../../../models/City";
 
-function ForecastDetails({ forecasts }: { forecasts: Forecasts | null }) {
+function ForecastDetails({
+  city,
+  forecasts,
+}: {
+  city: City | null;
+  forecasts: Forecasts | null;
+}) {
   const [modalVisible, updateModalVisible] = useState<boolean>(false);
 
   const dailyForecastsTemplate = (dailyForecasts: DailyForecast[]) => {
@@ -56,14 +63,14 @@ function ForecastDetails({ forecasts }: { forecasts: Forecasts | null }) {
 
   return (
     <>
-      {forecasts?.DailyForecasts && (
+      {forecasts?.DailyForecasts && city && (
         <div className="wrap-forecasts-detail">
           <DataView
             value={forecasts?.DailyForecasts}
             listTemplate={dailyForecastsTemplate}
           />
           <HourlyForecastDetails
-            hourlyForecasts={[]}
+            idCity={city.id}
             modalVisible={modalVisible}
             updateModalVisible={updateModalVisible}
           />

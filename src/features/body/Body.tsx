@@ -27,7 +27,7 @@ function Body({
         </div>
       )}
       <div className="weather-body__forecasts">
-        <ForecastDetails forecasts={forecasts} />
+        <ForecastDetails city={city} forecasts={forecasts} />
       </div>
     </>
   );

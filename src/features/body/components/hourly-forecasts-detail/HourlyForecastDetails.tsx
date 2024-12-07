@@ -2,22 +2,33 @@ import "./HourlyForecastDetails.scss";
 import { DataView } from "primereact/dataview";
 import { Dialog } from "primereact/dialog";
 import { Divider } from "primereact/divider";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { getHourlyForecast } from "../../../../services/weather.service";
 
 function HourlyForecastDetails({
-  hourlyForecasts,
+  idCity,
   modalVisible,
   updateModalVisible,
 }: {
-  hourlyForecasts: [];
+  idCity: string | null;
   modalVisible: boolean;
   updateModalVisible: Dispatch<SetStateAction<boolean>>;
 }) {
-  const hourlyForecastsTemplate = (hourlyForecasts: any[]) => {
-    if (!hourlyForecasts || hourlyForecasts.length === 0) {
+  const [hourlyForecasts, updateHourlyForecasts] = useState<any[] | null>(null);
+
+  useEffect(() => {
+    if (!idCity) {
+      updateHourlyForecasts(null);
+      return;
+    }
+    getHourlyForecast(idCity).then(updateHourlyForecasts);
+  }, [idCity]);
+
+  const hourlyForecastsTemplate = (detailsHourlyForecasts: any[]) => {
+    if (!detailsHourlyForecasts || detailsHourlyForecasts.length === 0) {
       return null;
     }
-    return hourlyForecasts.map((hourForecast, index) => (
+    return detailsHourlyForecasts.map((hourForecast, index) => (
       <>
         <div className="hourly-forecast-detail" key={hourForecast.Hour}>
           <div className="hourly-forecast-detail__hour">this is hour</div>
@@ -25,7 +36,7 @@ function HourlyForecastDetails({
             this is temperature
           </div>
         </div>
-        {index !== hourlyForecasts.length - 1 && (
+        {index !== detailsHourlyForecasts.length - 1 && (
           <Divider key={"divider-" + hourForecast.Date} />
         )}
       </>
@@ -34,20 +45,22 @@ function HourlyForecastDetails({
 
   return (
     <>
-      <Dialog
-        visible={modalVisible}
-        onHide={() => {
-          updateModalVisible(false);
-        }}
-        style={{ width: "800px", height: "600px" }}
-      >
-        <div className="wrap-hourly-forecasts-detail">
-          <DataView
-            value={hourlyForecasts}
-            listTemplate={hourlyForecastsTemplate}
-          />
-        </div>
-      </Dialog>
+      {hourlyForecasts && idCity && (
+        <Dialog
+          visible={modalVisible}
+          onHide={() => {
+            updateModalVisible(false);
+          }}
+          style={{ width: "800px", height: "600px" }}
+        >
+          <div className="wrap-hourly-forecasts-detail">
+            <DataView
+              value={hourlyForecasts}
+              listTemplate={hourlyForecastsTemplate}
+            />
+          </div>
+        </Dialog>
+      )}
     </>
   );
 }

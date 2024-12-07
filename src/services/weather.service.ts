@@ -16,8 +16,14 @@ export const getCurrentConditions = async (idCity: string): Promise<CurrentCondi
 
 export const getForecasts = async (idCity: string): Promise<any> => {
   const response = await fetch(buildApiUrl(`forecasts/v1/daily/5day/${idCity}`, { metric: 'true' }));
-  const currentConditions = await response.json()
-  return currentConditions;
+  const forecasts = await response.json()
+  return forecasts;
+}
+
+export const getHourlyForecast = async (idCity: string): Promise<any> => {
+  const response = await fetch(buildApiUrl(`forecasts/v1/hourly/12hour/${idCity}`, { metric: 'true' }));
+  const hourlyForecast = await response.json()
+  return hourlyForecast;
 }
 
 const buildApiUrl = (endpoint: string, queryParams?: Record<string, string>): string | never => {
