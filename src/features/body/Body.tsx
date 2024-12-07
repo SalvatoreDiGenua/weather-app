@@ -26,8 +26,8 @@ function Body({ city }: { city: City | null }) {
 
   return (
     <>
-      {city && currentCondition && (
-        <div className="weather-body">
+      <div className="weather-body">
+        {city && currentCondition && (
           <div className="weather-body__title">
             <h1>
               {city.name} {currentCondition.Temperature.Metric.Value + "°"}
@@ -35,10 +35,14 @@ function Body({ city }: { city: City | null }) {
             </h1>
             <h3>{currentCondition.WeatherText}</h3>
           </div>
+        )}
+        <div className="weather-body__forecasts">
+          {forecasts ? (
+            <ForecastDetails city={city} forecasts={forecasts} />
+          ) : (
+            <div style={{ textAlign: "center" }}>Scegli una città</div>
+          )}
         </div>
-      )}
-      <div className="weather-body__forecasts">
-        <ForecastDetails city={city} forecasts={forecasts} />
       </div>
     </>
   );
