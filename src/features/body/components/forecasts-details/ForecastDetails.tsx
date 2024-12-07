@@ -13,7 +13,7 @@ function ForecastDetails({
   city: City | null;
   forecasts: Forecasts | null;
 }) {
-  const [modalVisible, updateModalVisible] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const dailyForecastsTemplate = (dailyForecasts: DailyForecast[]) => {
     if (!dailyForecasts || dailyForecasts.length === 0) {
@@ -72,7 +72,7 @@ function ForecastDetails({
           <HourlyForecastDetails
             idCity={city.id}
             modalVisible={modalVisible}
-            updateModalVisible={updateModalVisible}
+            updateModalVisible={setModalVisible}
           />
         </div>
       )}

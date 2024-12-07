@@ -8,24 +8,24 @@ import { CurrentCondition } from "./models/CurrentCondition";
 import { Forecasts } from "./models/Forecasts";
 
 function App() {
-  const [city, updateCity] = useState<City | null>(null);
-  const [currentCondition, updateCurrentCondition] =
+  const [city, setCity] = useState<City | null>(null);
+  const [currentCondition, setCurrentCondition] =
     useState<CurrentCondition | null>(null);
-  const [forecasts, updateForecasts] = useState<Forecasts | null>(null);
+  const [forecasts, setForecasts] = useState<Forecasts | null>(null);
 
   useEffect(() => {
     if (!city?.id) {
-      updateCurrentCondition(null);
-      updateForecasts(null);
+      setCurrentCondition(null);
+      setForecasts(null);
       return;
     }
-    getCurrentConditions(city.id).then(updateCurrentCondition);
-    getForecasts(city.id).then(updateForecasts);
+    getCurrentConditions(city.id).then(setCurrentCondition);
+    getForecasts(city.id).then(setForecasts);
   }, [city]);
 
   return (
     <>
-      <Header city={city} updateCityState={updateCity} />
+      <Header city={city} updateCityState={setCity} />
       <Body
         city={city}
         currentCondition={currentCondition}

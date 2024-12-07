@@ -14,14 +14,14 @@ function HourlyForecastDetails({
   modalVisible: boolean;
   updateModalVisible: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [hourlyForecasts, updateHourlyForecasts] = useState<any[] | null>(null);
+  const [hourlyForecasts, setHourlyForecasts] = useState<any[] | null>(null);
 
   useEffect(() => {
     if (!idCity) {
-      updateHourlyForecasts(null);
+      setHourlyForecasts(null);
       return;
     }
-    getHourlyForecast(idCity).then(updateHourlyForecasts);
+    getHourlyForecast(idCity).then(setHourlyForecasts);
   }, [idCity]);
 
   const hourlyForecastsTemplate = (detailsHourlyForecasts: any[]) => {
