@@ -20,9 +20,7 @@ function Header({
   const searchPlaces = async (event: AutoCompleteCompleteEvent) => {
     const query = (event.query || "").toLocaleLowerCase();
     const cities = (await searchCity(query)) || [];
-    setPlacesState(() =>
-      cities.map((el) => ({ name: el.LocalizedName, id: el.Key }))
-    );
+    setPlacesState(cities);
   };
 
   return (
@@ -32,7 +30,7 @@ function Header({
           start={<h3>Weather React App</h3>}
           end={
             <AutoComplete
-              field="name"
+              field="LocalizedName"
               value={city}
               suggestions={places}
               placeholder="Cerca una città"

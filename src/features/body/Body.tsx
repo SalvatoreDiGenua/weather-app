@@ -15,13 +15,13 @@ function Body({ city }: { city: City | null }) {
   const [forecasts, setForecasts] = useState<Forecasts | null>(null);
 
   useEffect(() => {
-    if (!city?.id) {
+    if (!city?.Key) {
       setCurrentCondition(null);
       setForecasts(null);
       return;
     }
-    getCurrentConditions(city.id).then(setCurrentCondition);
-    getForecasts(city.id).then(setForecasts);
+    getCurrentConditions(city.Key).then(setCurrentCondition);
+    getForecasts(city.Key).then(setForecasts);
   }, [city]);
 
   return (
@@ -30,7 +30,7 @@ function Body({ city }: { city: City | null }) {
         {city && currentCondition && (
           <div className="weather-body__title">
             <h1>
-              {city.name} {currentCondition.Temperature.Metric.Value + "°"}
+              {city.Key} {currentCondition.Temperature.Metric.Value + "°"}
               {currentCondition.Temperature.Metric.Unit}
             </h1>
             <h3>{currentCondition.WeatherText}</h3>
