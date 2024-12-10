@@ -3,26 +3,47 @@ import { WEATHER_BASE_API_URL } from "../constant/WEATHER_BASE_API_URL"
 import { City } from "../models/City";
 import { CurrentCondition } from "../models/CurrentCondition";
 
+const WEATHER_SERVICE_CACHE: Record<string, Map<string, Promise<CurrentCondition>>> = {
+  currentConditions: new Map(),
+  forecasts: new Map(),
+  hourlyForecasts: new Map()
+};
+
 export const searchCity = async (city: string): Promise<City[]> => {
   const response = await fetch(buildApiUrl('locations/v1/cities/autocomplete', { q: city }));
   return response.json();
 }
 
 export const getCurrentConditions = async (cityKey: string): Promise<CurrentCondition> => {
+  const cacheCurrentCondition = WEATHER_SERVICE_CACHE.currentConditions.get(cityKey);
+  if (cacheCurrentCondition) {
+    return new Promise((resolve) => resolve(cacheCurrentCondition));
+  }
   const response = await fetch(buildApiUrl(`currentconditions/v1/${cityKey}`));
-  const currentConditions = await response.json()
+  const currentConditions = await response.json();
+  WEATHER_SERVICE_CACHE.currentConditions.set(cityKey, currentConditions[0]);
   return currentConditions[0];
 }
 
 export const getForecasts = async (cityKey: string): Promise<any> => {
+  const cacheForecasts = WEATHER_SERVICE_CACHE.forecasts.get(cityKey);
+  if (cacheForecasts) {
+    return new Promise((resolve) => resolve(cacheForecasts));
+  }
   const response = await fetch(buildApiUrl(`forecasts/v1/daily/5day/${cityKey}`, { metric: 'true' }));
-  const forecasts = await response.json()
+  const forecasts = await response.json();
+  WEATHER_SERVICE_CACHE.forecasts.set(cityKey, forecasts);
   return forecasts;
 }
 
 export const getHourlyForecast = async (cityKey: string): Promise<any> => {
+  const cacheHourlyForecast = WEATHER_SERVICE_CACHE.hourlyForecasts.get(cityKey);
+  if (cacheHourlyForecast) {
+    return new Promise((resolve) => resolve(cacheHourlyForecast));
+  }
   const response = await fetch(buildApiUrl(`forecasts/v1/hourly/12hour/${cityKey}`, { metric: 'true' }));
-  const hourlyForecast = await response.json()
+  const hourlyForecast = await response.json();
+  WEATHER_SERVICE_CACHE.hourlyForecasts.set(cityKey, hourlyForecast);
   return hourlyForecast;
 }
 
