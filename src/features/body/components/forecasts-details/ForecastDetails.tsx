@@ -7,6 +7,7 @@ import HourlyForecastDetails from "../hourly-forecasts-detail/HourlyForecastDeta
 import { City } from "../../../../models/City";
 import { Button } from "primereact/button";
 import { formatDateDay } from "../../../../shared/functions/formatDateDay";
+import WeatherIcon from "../../../../shared/components/weather-icon/WeatherIcon";
 
 function ForecastDetails({
   city,
@@ -38,6 +39,9 @@ function ForecastDetails({
     return dailyForecasts.map((dailyForecast, index) => (
       <>
         <div className="forecast-detail" key={dailyForecast.Date}>
+          <div className="forecast-detail__icon">
+            <WeatherIcon iconType={dailyForecast.Day.Icon} />
+          </div>
           <div className="forecast-detail__day">
             {formatDateDay(dailyForecast.Date)}
           </div>

@@ -3,11 +3,15 @@
   .hourly-forecast-detail {
     padding: 8px 16px;
     display: grid;
-    grid-template-areas: "hour temperature weather-detail";
-    grid-auto-columns: min-content 100px max-content;
+    grid-template-areas: "icon hour temperature weather-detail";
+    grid-auto-columns: 50px min-content 100px max-content;
     gap: 25px;
     align-items: center;
     line-height: 1;
+
+    &__icon {
+      grid-area: icon;
+    }
 
     &__hour {
       grid-area: hour;

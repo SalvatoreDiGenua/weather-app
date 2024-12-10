@@ -7,6 +7,7 @@ import { getHourlyForecast } from "../../../../services/weather.service";
 import { HourlyForecast } from "../../../../models/HourlyForecast";
 import { DailyForecast } from "../../../../models/Forecasts";
 import { formatDateDay } from "../../../../shared/functions/formatDateDay";
+import WeatherIcon from "../../../../shared/components/weather-icon/WeatherIcon";
 
 function HourlyForecastDetails({
   cityKey,
@@ -40,6 +41,9 @@ function HourlyForecastDetails({
     return detailsHourlyForecasts.map((hourForecast, index) => (
       <>
         <div className="hourly-forecast-detail" key={hourForecast.DateTime}>
+          <div className="hourly-forecast-detail__icon">
+            <WeatherIcon iconType={hourForecast.WeatherIcon} />
+          </div>
           <div className="hourly-forecast-detail__hour">
             {new Date(hourForecast.DateTime).toLocaleDateString("default", {
               day: "numeric",
