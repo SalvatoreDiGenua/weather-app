@@ -70,7 +70,7 @@ function ForecastDetails({
             listTemplate={dailyForecastsTemplate}
           />
           <HourlyForecastDetails
-            idCity={city.id}
+            cityKey={city.Key}
             modalVisible={modalVisible}
             updateModalVisible={setModalVisible}
           />

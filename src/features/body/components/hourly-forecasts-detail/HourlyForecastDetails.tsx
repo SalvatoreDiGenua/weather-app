@@ -6,11 +6,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getHourlyForecast } from "../../../../services/weather.service";
 
 function HourlyForecastDetails({
-  idCity,
+  cityKey: idCity,
   modalVisible,
   updateModalVisible,
 }: {
-  idCity: string | null;
+  cityKey: string | null;
   modalVisible: boolean;
   updateModalVisible: Dispatch<SetStateAction<boolean>>;
 }) {
