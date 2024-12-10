@@ -45,9 +45,7 @@ function HourlyForecastDetails({
             <WeatherIcon iconType={hourForecast.WeatherIcon} />
           </div>
           <div className="hourly-forecast-detail__hour">
-            {new Date(hourForecast.DateTime).toLocaleDateString("default", {
-              day: "numeric",
-            })}
+            {`${new Date(hourForecast.DateTime).getHours()}:00`}
           </div>
           <div className="hourly-forecast-detail__temperature">
             {hourForecast.Temperature.Value}°
@@ -73,6 +71,7 @@ function HourlyForecastDetails({
             updateModalVisible(false);
           }}
           style={{ width: "800px", height: "600px" }}
+          draggable={false}
         >
           <div className="wrap-hourly-forecasts-detail">
             <DataView
