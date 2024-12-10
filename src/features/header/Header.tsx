@@ -38,6 +38,7 @@ function Header({
               onChange={(e) => updateCityState(e.value)}
             />
           }
+          model={[]}
         />
       </div>
     </>
