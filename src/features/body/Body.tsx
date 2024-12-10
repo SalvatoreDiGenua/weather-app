@@ -30,7 +30,7 @@ function Body({ city }: { city: City | null }) {
         {city && currentCondition && (
           <div className="weather-body__title">
             <h1>
-              {city.Key} {currentCondition.Temperature.Metric.Value + "°"}
+              {city.LocalizedName} {currentCondition.Temperature.Metric.Value + "°"}
               {currentCondition.Temperature.Metric.Unit}
             </h1>
             <h3>{currentCondition.WeatherText}</h3>
