@@ -2,6 +2,7 @@ import { WEATHER_API_KEY } from "../constant/WEATHER_API_KEY"
 import { WEATHER_BASE_API_URL } from "../constant/WEATHER_BASE_API_URL"
 import { City } from "../models/City";
 import { CurrentCondition } from "../models/CurrentCondition";
+import { Forecasts } from "../models/Forecasts";
 
 const WEATHER_SERVICE_CACHE: Record<string, Map<string, Promise<any>>> = {
   searchCity: new Map(),
@@ -32,7 +33,7 @@ export const getCurrentConditions = async (cityKey: string): Promise<CurrentCond
   return currentConditions[0];
 }
 
-export const getForecasts = async (cityKey: string): Promise<any> => {
+export const getForecasts = async (cityKey: string): Promise<Forecasts> => {
   const cacheForecasts = WEATHER_SERVICE_CACHE.forecasts.get(cityKey);
   if (cacheForecasts) {
     return new Promise((resolve) => resolve(cacheForecasts));
