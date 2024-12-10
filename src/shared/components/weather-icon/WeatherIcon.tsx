@@ -9,7 +9,6 @@ function WeatherIcon({ iconType }: { iconType: number }) {
         <img
           src={`${BASE_URL_ICON}/${iconType.toString().padStart(2, "0")}-s.png`}
           alt={`image-${iconType}`}
-          style={{ width: "80px" }}
         />
       </div>
     </>
