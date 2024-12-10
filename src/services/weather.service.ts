@@ -3,6 +3,7 @@ import { WEATHER_BASE_API_URL } from "../constant/WEATHER_BASE_API_URL"
 import { City } from "../models/City";
 import { CurrentCondition } from "../models/CurrentCondition";
 import { Forecasts } from "../models/Forecasts";
+import { HourlyForecast } from "../models/HourlyForecast";
 
 const WEATHER_SERVICE_CACHE: Record<string, Map<string, Promise<any>>> = {
   searchCity: new Map(),
@@ -44,7 +45,7 @@ export const getForecasts = async (cityKey: string): Promise<Forecasts> => {
   return forecasts;
 }
 
-export const getHourlyForecast = async (cityKey: string): Promise<any> => {
+export const getHourlyForecast = async (cityKey: string): Promise<HourlyForecast[]> => {
   const cacheHourlyForecast = WEATHER_SERVICE_CACHE.hourlyForecasts.get(cityKey);
   if (cacheHourlyForecast) {
     return new Promise((resolve) => resolve(cacheHourlyForecast));
