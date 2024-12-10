@@ -45,7 +45,10 @@ function HourlyForecastDetails({
             <WeatherIcon iconType={hourForecast.WeatherIcon} />
           </div>
           <div className="hourly-forecast-detail__hour">
-            {`${new Date(hourForecast.DateTime).getHours()}:00`}
+            {`${new Date(hourForecast.DateTime)
+              .getHours()
+              .toString()
+              .padStart(2, "0")}:00`}
           </div>
           <div className="hourly-forecast-detail__temperature">
             {hourForecast.Temperature.Value}°
