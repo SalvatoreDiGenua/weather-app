@@ -74,6 +74,7 @@ function ForecastDetails({
       {forecasts?.DailyForecasts && city && (
         <div className="wrap-forecasts-detail">
           <DataView
+            className="wrap-forecasts-detail__data-view"
             value={forecasts?.DailyForecasts}
             listTemplate={dailyForecastsTemplate}
           />

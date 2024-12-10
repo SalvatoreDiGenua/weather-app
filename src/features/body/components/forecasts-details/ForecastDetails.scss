@@ -1,8 +1,17 @@
 .wrap-forecasts-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
 
-  .p-dataview-content {
-    padding: 16px 8px;
+  &__data-view {
+    width: 85%;
+
+    .p-dataview-content {
+      padding: 16px 8px;
+    }
   }
+
 
   .forecast-detail {
     padding: 8px 16px;
