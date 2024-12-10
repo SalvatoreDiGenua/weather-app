@@ -4,40 +4,56 @@ import { Dialog } from "primereact/dialog";
 import { Divider } from "primereact/divider";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getHourlyForecast } from "../../../../services/weather.service";
+import { HourlyForecast } from "../../../../models/HourlyForecast";
+import { DailyForecast } from "../../../../models/Forecasts";
+import { formatDateDay } from "../../../../shared/functions/formatDateDay";
 
 function HourlyForecastDetails({
-  cityKey: idCity,
+  cityKey,
+  dailyForecast,
   modalVisible,
   updateModalVisible,
 }: {
   cityKey: string | null;
+  dailyForecast: DailyForecast | null;
   modalVisible: boolean;
   updateModalVisible: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [hourlyForecasts, setHourlyForecasts] = useState<any[] | null>(null);
+  const [hourlyForecasts, setHourlyForecasts] = useState<
+    HourlyForecast[] | null
+  >(null);
 
   useEffect(() => {
-    if (!idCity) {
+    if (!cityKey) {
       setHourlyForecasts(null);
       return;
     }
-    getHourlyForecast(idCity).then(setHourlyForecasts);
-  }, [idCity]);
+    getHourlyForecast(cityKey).then(setHourlyForecasts);
+  }, [cityKey]);
 
-  const hourlyForecastsTemplate = (detailsHourlyForecasts: any[]) => {
+  const hourlyForecastsTemplate = (
+    detailsHourlyForecasts: HourlyForecast[]
+  ) => {
     if (!detailsHourlyForecasts || detailsHourlyForecasts.length === 0) {
       return null;
     }
     return detailsHourlyForecasts.map((hourForecast, index) => (
       <>
-        <div className="hourly-forecast-detail" key={hourForecast.Hour}>
-          <div className="hourly-forecast-detail__hour">this is hour</div>
+        <div className="hourly-forecast-detail" key={hourForecast.DateTime}>
+          <div className="hourly-forecast-detail__hour">
+            {new Date(hourForecast.DateTime).toLocaleDateString("default", {
+              day: "numeric",
+            })}
+          </div>
           <div className="hourly-forecast-detail__temperature">
-            this is temperature
+            {hourForecast.Temperature.Value}°
+          </div>
+          <div className="hourly-forecast-detail__weather-detail">
+            {hourForecast.IconPhrase}
           </div>
         </div>
         {index !== detailsHourlyForecasts.length - 1 && (
-          <Divider key={"divider-" + hourForecast.Date} />
+          <Divider key={"divider-" + hourForecast.DateTime} />
         )}
       </>
     ));
@@ -45,8 +61,9 @@ function HourlyForecastDetails({
 
   return (
     <>
-      {hourlyForecasts && idCity && (
+      {hourlyForecasts && dailyForecast && (
         <Dialog
+          header={formatDateDay(dailyForecast?.Date)}
           visible={modalVisible}
           onHide={() => {
             updateModalVisible(false);

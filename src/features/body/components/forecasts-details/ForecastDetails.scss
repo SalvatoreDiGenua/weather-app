@@ -5,11 +5,11 @@
   }
 
   .forecast-detail {
-    height: 30px;
     padding: 8px 16px;
     display: grid;
-    grid-template-areas: "day temperature";
-    grid-template-columns: 1fr auto;
+    grid-template-areas: "day temperature action";
+    grid-template-columns: 1fr auto auto;
+    gap: 25px;
     align-items: center;
     line-height: 1;
 
@@ -28,6 +28,10 @@
     &__temperature-max {
       min-width: 40px;
       text-align: center;
+    }
+
+    &__action {
+      grid-area: action;
     }
   }
 }

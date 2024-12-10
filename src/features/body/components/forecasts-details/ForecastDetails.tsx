@@ -2,9 +2,11 @@ import "./ForecastDetails.scss";
 import { DailyForecast, Forecasts } from "../../../../models/Forecasts";
 import { DataView } from "primereact/dataview";
 import { Divider } from "primereact/divider";
-import { ReactNode, useState } from "react";
+import { useEffect, useState } from "react";
 import HourlyForecastDetails from "../hourly-forecasts-detail/HourlyForecastDetails";
 import { City } from "../../../../models/City";
+import { Button } from "primereact/button";
+import { formatDateDay } from "../../../../shared/functions/formatDateDay";
 
 function ForecastDetails({
   city,
@@ -14,6 +16,20 @@ function ForecastDetails({
   forecasts: Forecasts | null;
 }) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [dailyForecast, setDailyForecast] = useState<DailyForecast | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (!modalVisible) {
+      setDailyForecast(null);
+    }
+  }, [modalVisible]);
+
+  const handleOpenModal = (dailyForecasts: DailyForecast) => {
+    setDailyForecast(dailyForecasts);
+    setModalVisible(true);
+  };
 
   const dailyForecastsTemplate = (dailyForecasts: DailyForecast[]) => {
     if (!dailyForecasts || dailyForecasts.length === 0) {
@@ -34,31 +50,19 @@ function ForecastDetails({
               {dailyForecast.Temperature.Maximum.Value}°
             </div>
           </div>
+          <div className="forecast-detail__action">
+            <Button
+              key={"button-" + dailyForecast.Date}
+              icon="pi pi-chevron-right"
+              onClick={() => handleOpenModal(dailyForecast)}
+            />
+          </div>
         </div>
         {index !== dailyForecasts.length - 1 && (
           <Divider key={"divider-" + dailyForecast.Date} />
         )}
       </>
     ));
-  };
-
-  const formatDateDay = (dateDay: string): string | ReactNode => {
-    const dateDayObj = new Date(dateDay);
-    if (new Date().getDay() === dateDayObj.getDay()) {
-      return "Oggi";
-    }
-    return (
-      <span style={{ textTransform: "capitalize" }}>
-        {`
-        ${dateDayObj.toLocaleDateString("default", {
-          weekday: "long",
-        })}
-        ${dateDayObj.toLocaleDateString("default", {
-          day: "numeric",
-        })}
-        `}
-      </span>
-    );
   };
 
   return (
@@ -71,6 +75,7 @@ function ForecastDetails({
           />
           <HourlyForecastDetails
             cityKey={city.Key}
+            dailyForecast={dailyForecast}
             modalVisible={modalVisible}
             updateModalVisible={setModalVisible}
           />
