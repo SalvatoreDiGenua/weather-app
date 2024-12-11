@@ -4,6 +4,7 @@ import { City } from "../models/City";
 import { CurrentCondition } from "../models/CurrentCondition";
 import { Forecasts } from "../models/Forecasts";
 import { HourlyForecast } from "../models/HourlyForecast";
+import { TopCity } from "../models/TopCity";
 
 const WEATHER_SERVICE_CACHE: Record<string, Map<string, Promise<any>>> = {
   searchCity: new Map(),
@@ -54,6 +55,12 @@ export const getHourlyForecast = async (cityKey: string): Promise<HourlyForecast
   const hourlyForecast = await response.json();
   WEATHER_SERVICE_CACHE.hourlyForecasts.set(cityKey, hourlyForecast);
   return hourlyForecast;
+}
+
+export const getTopCities = async (): Promise<TopCity[]> => {
+  const response = await fetch(buildApiUrl(`currentconditions/v1/topcities/50`), { cache: "force-cache" });
+  const topCities = await response.json();
+  return topCities;
 }
 
 const buildApiUrl = (endpoint: string, queryParams?: Record<string, string>): string | never => {
