@@ -9,6 +9,7 @@ import {
   getForecasts,
 } from "../../services/weather.service";
 import WeatherIcon from "../../shared/components/weather-icon/WeatherIcon";
+import ForecastTopCities from "./components/forecasts-top-cities/ForecastTopCities";
 
 function Body({ city }: { city: City | null }) {
   const [currentCondition, setCurrentCondition] =
@@ -32,7 +33,7 @@ function Body({ city }: { city: City | null }) {
           <div className="weather-body__main">
             <WeatherIcon iconType={currentCondition.WeatherIcon} />
             <h1 className="weather-body__main-title">
-              <span style={{marginRight: '15px'}}>{city.LocalizedName}</span>
+              <span style={{ marginRight: "15px" }}>{city.LocalizedName}</span>
               {currentCondition.Temperature.Metric.Value + "°"}
               {currentCondition.Temperature.Metric.Unit}
             </h1>
@@ -45,7 +46,7 @@ function Body({ city }: { city: City | null }) {
           {forecasts ? (
             <ForecastDetails city={city} forecasts={forecasts} />
           ) : (
-            <div style={{ textAlign: "center" }}>Scegli una città</div>
+            <ForecastTopCities />
           )}
         </div>
       </div>

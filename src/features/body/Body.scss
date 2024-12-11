@@ -25,4 +25,11 @@
       grid-area: subtitle;
     }
   }
+
+  &__forecasts {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
 }
