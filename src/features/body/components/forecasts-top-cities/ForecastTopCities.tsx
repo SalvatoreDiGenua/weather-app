@@ -50,7 +50,7 @@ function ForecastTopCities() {
     },
     {
       breakpoint: "350px",
-      numVisible: 1 ,
+      numVisible: 1,
       numScroll: 1,
     },
   ];
@@ -59,7 +59,9 @@ function ForecastTopCities() {
     <>
       {topCities ? (
         <div className="wrap-forecasts-top-citites">
-          <h1 className="wrap-forecasts-top-citites__title">Top 50 Città</h1>
+          <h1 className="wrap-forecasts-top-citites__title">
+            {`Top ${topCities.length} Città`}
+          </h1>
           <Carousel
             value={topCities}
             numVisible={10}
