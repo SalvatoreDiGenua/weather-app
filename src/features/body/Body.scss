@@ -5,9 +5,24 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  &__title {
-    text-align: center;
-  }
-  &__forecasts {
+
+  &__main {
+    display: grid;
+    grid-template-areas: "weather-icon title" "weather-icon subtitle";
+    justify-content: center;
+    column-gap: 15px;
+
+    .weather-icon {
+      grid-area: weather-icon;
+      scale: 1.5;
+    }
+
+    &-title {
+      grid-area: title;
+    }
+
+    &-subtitle {
+      grid-area: subtitle;
+    }
   }
 }

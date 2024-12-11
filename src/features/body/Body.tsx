@@ -8,6 +8,7 @@ import {
   getCurrentConditions,
   getForecasts,
 } from "../../services/weather.service";
+import WeatherIcon from "../../shared/components/weather-icon/WeatherIcon";
 
 function Body({ city }: { city: City | null }) {
   const [currentCondition, setCurrentCondition] =
@@ -28,12 +29,16 @@ function Body({ city }: { city: City | null }) {
     <>
       <div className="weather-body">
         {city && currentCondition && (
-          <div className="weather-body__title">
-            <h1>
-              {city.LocalizedName} {currentCondition.Temperature.Metric.Value + "°"}
+          <div className="weather-body__main">
+            <WeatherIcon iconType={currentCondition.WeatherIcon} />
+            <h1 className="weather-body__main-title">
+              <span style={{marginRight: '15px'}}>{city.LocalizedName}</span>
+              {currentCondition.Temperature.Metric.Value + "°"}
               {currentCondition.Temperature.Metric.Unit}
             </h1>
-            <h3>{currentCondition.WeatherText}</h3>
+            <h3 className="weather-body__main-subtitle">
+              {currentCondition.WeatherText}
+            </h3>
           </div>
         )}
         <div className="weather-body__forecasts">
