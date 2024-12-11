@@ -1,5 +1,6 @@
 import {
   AutoComplete,
+  AutoCompleteChangeEvent,
   AutoCompleteCompleteEvent,
 } from "primereact/autocomplete";
 import "./Header.scss";
@@ -17,11 +18,14 @@ function Header({
 }) {
   const [places, setPlacesState] = useState<City[]>([]);
 
-  const searchPlaces = async (event: AutoCompleteCompleteEvent) => {
+  const handleSearchSuggestions = async (event: AutoCompleteCompleteEvent) => {
     const query = (event.query || "").toLocaleLowerCase();
     const cities = (await searchCity(query)) || [];
     setPlacesState(cities);
   };
+
+  const handleAutoCompleteChange = (event: AutoCompleteChangeEvent) =>
+    updateCityState(event.value);
 
   return (
     <>
@@ -29,7 +33,7 @@ function Header({
         <Menubar
           start={
             <h3 className="weather-header__title">
-              <i className="pi pi-spin pi-sun" style={{fontSize: '28px'}}></i>
+              <i className="pi pi-spin pi-sun" style={{ fontSize: "28px" }}></i>
               <span>Weather React App</span>
             </h3>
           }
@@ -39,8 +43,8 @@ function Header({
               value={city}
               suggestions={places}
               placeholder="Cerca una città"
-              completeMethod={searchPlaces}
-              onChange={(e) => updateCityState(e.value)}
+              completeMethod={handleSearchSuggestions}
+              onChange={handleAutoCompleteChange}
             />
           }
           model={[]}
