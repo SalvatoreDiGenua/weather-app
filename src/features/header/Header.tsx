@@ -27,7 +27,12 @@ function Header({
     <>
       <div className="weather-header">
         <Menubar
-          start={<h3>Weather React App</h3>}
+          start={
+            <h3 className="weather-header__title">
+              <i className="pi pi-spin pi-sun" style={{fontSize: '28px'}}></i>
+              <span>Weather React App</span>
+            </h3>
+          }
           end={
             <AutoComplete
               field="LocalizedName"

@@ -2,4 +2,12 @@
   .p-menubar {
     border-radius: 0 !important;
   }
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    i {
+      animation-duration: 10s !important;
+    }
+  }
 }
