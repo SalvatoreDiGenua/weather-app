@@ -58,7 +58,7 @@ export const getHourlyForecast = async (cityKey: string): Promise<HourlyForecast
 }
 
 export const getTopCities = async (): Promise<TopCity[]> => {
-  const response = await fetch(buildApiUrl(`currentconditions/v1/topcities/50`), { cache: "force-cache" });
+  const response = await fetch(buildApiUrl(`currentconditions/v1/topcities/150`), { cache: "force-cache" });
   const topCities = await response.json();
   return topCities;
 }
