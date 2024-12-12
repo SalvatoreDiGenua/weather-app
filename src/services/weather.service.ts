@@ -10,7 +10,8 @@ const WEATHER_SERVICE_CACHE: Record<string, Map<string, Promise<any>>> = {
   searchCity: new Map(),
   currentConditions: new Map(),
   forecasts: new Map(),
-  hourlyForecasts: new Map()
+  hourlyForecasts: new Map(),
+  topCities: new Map()
 };
 
 export const searchCity = async (query: string): Promise<City[]> => {
@@ -58,8 +59,13 @@ export const getHourlyForecast = async (cityKey: string): Promise<HourlyForecast
 }
 
 export const getTopCities = async (): Promise<TopCity[]> => {
+  const cacheTopCities = WEATHER_SERVICE_CACHE.topCities.get('topCities');
+  if (cacheTopCities) {
+    return new Promise((resolve) => resolve(cacheTopCities));
+  }
   const response = await fetch(buildApiUrl(`currentconditions/v1/topcities/150`), { cache: "force-cache" });
   const topCities = await response.json();
+  WEATHER_SERVICE_CACHE.topCities.set(topCities, topCities);
   return topCities;
 }
 
