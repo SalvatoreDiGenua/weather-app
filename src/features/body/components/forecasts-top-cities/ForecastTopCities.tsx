@@ -1,10 +1,8 @@
-import { Carousel, CarouselResponsiveOption } from "primereact/carousel";
 import "./ForecastTopCities.scss";
 import { useEffect, useState } from "react";
 import { getTopCities } from "../../../../services/weather.service";
 import { TopCity } from "../../../../models/TopCity";
 import WeatherIcon from "../../../../shared/components/weather-icon/WeatherIcon";
-import { Card } from "primereact/card";
 
 function ForecastTopCities() {
   const [topCities, setTopCities] = useState<TopCity[] | null>(null);
@@ -13,63 +11,33 @@ function ForecastTopCities() {
     getTopCities().then(setTopCities);
   }, []);
 
-  const topCityTemplate = (topCity: TopCity) => {
-    return (
-      <>
-        <div className="forecasts-top-citites-card">
-          <Card
-            header={<WeatherIcon iconType={topCity.WeatherIcon} />}
-            title={topCity.LocalizedName}
-            subTitle={`${topCity.Temperature.Metric.Value}° ${topCity.Temperature.Metric.Unit} ${topCity.WeatherText}`}
-          ></Card>
-        </div>
-      </>
-    );
-  };
-
-  const responsiveOptions: CarouselResponsiveOption[] = [
-    {
-      breakpoint: "1400px",
-      numVisible: 10,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "1199px",
-      numVisible: 8,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "767px",
-      numVisible: 4,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "575px",
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "350px",
-      numVisible: 1,
-      numScroll: 1,
-    },
-  ];
-
   return (
     <>
       {topCities ? (
-        <div className="wrap-forecasts-top-citites">
-          <h1 className="wrap-forecasts-top-citites__title">
+        <div className="forecasts-top-citites">
+          <h1 className="forecasts-top-citites__title">
             {`Top ${topCities.length} Città`}
           </h1>
-          <Carousel
-            value={topCities}
-            numVisible={10}
-            numScroll={1}
-            circular={true}
-            itemTemplate={topCityTemplate}
-            responsiveOptions={responsiveOptions}
-          />
+          <div className="forecasts-top-citites__carousel">
+            {topCities.map((topCity) => (
+              <div
+                className="forecasts-top-citites__card"
+                key={`top-city-${topCity.Key}`}
+              >
+                <div className="forecasts-top-citites__card-image">
+                  <WeatherIcon iconType={topCity.WeatherIcon} />
+                </div>
+                <div className="forecasts-top-citites__card-title">
+                  {topCity.LocalizedName}
+                </div>
+                {topCity.Temperature.Metric.Value}°
+                {topCity.Temperature.Metric.Unit}
+                <div className="forecasts-top-citites__card-subtitle">
+                  {` ${topCity.WeatherText}`}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <div style={{ fontSize: "30px" }}>Loading...</div>
