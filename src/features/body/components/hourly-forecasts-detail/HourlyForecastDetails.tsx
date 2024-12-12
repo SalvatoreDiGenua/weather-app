@@ -25,12 +25,12 @@ function HourlyForecastDetails({
   >(null);
 
   useEffect(() => {
-    if (!cityKey) {
+    if (!cityKey || !modalVisible) {
       setHourlyForecasts(null);
       return;
     }
     getHourlyForecast(cityKey).then(setHourlyForecasts);
-  }, [cityKey]);
+  }, [cityKey, modalVisible]);
 
   const hourlyForecastsTemplate = (
     detailsHourlyForecasts: HourlyForecast[]
