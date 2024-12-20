@@ -1,31 +1,34 @@
-import {
-  AutoComplete,
-  AutoCompleteChangeEvent,
-  AutoCompleteCompleteEvent,
-} from "primereact/autocomplete";
+import { AutoComplete } from "primereact/autocomplete";
 import "./Header.scss";
 import { Menubar } from "primereact/menubar";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { City } from "../../models/City";
 import { searchCity } from "../../services/weather.service";
+import { useDispatch } from "react-redux";
+import { resetCityStore, setCityStore } from "../../redux/city/citySlice";
+import { FormEvent } from "primereact/ts-helpers";
 
-function Header({
-  city,
-  updateCityState,
-}: {
-  city: City | null;
-  updateCityState: Dispatch<SetStateAction<City | null>>;
-}) {
-  const [places, setPlacesState] = useState<City[]>([]);
+function Header() {
+  const dispatch = useDispatch();
+  const [places, setPlaces] = useState<City[]>([]);
+  const [query, setQuery] = useState<string>("");
 
-  const handleSearchSuggestions = async (event: AutoCompleteCompleteEvent) => {
-    const query = (event.query || "").toLocaleLowerCase();
-    const cities = (await searchCity(query)) || [];
-    setPlacesState(cities);
+  const handleAutoCompleteChange = (event: FormEvent<City | string>) => {
+    if (!event || !event.value) {
+      setQuery("");
+      dispatch(resetCityStore());
+      return;
+    }
+    if (typeof event?.value === "string") {
+      setQuery(event.value);
+      searchCity(event.value).then(setPlaces);
+      return;
+    }
+    setQuery(event.value.LocalizedName);
+    dispatch(setCityStore(event.value));
   };
 
-  const handleAutoCompleteChange = (event: AutoCompleteChangeEvent) =>
-    updateCityState(event.value);
+  const handleCompleteMethod = () => places;
 
   return (
     <>
@@ -40,10 +43,10 @@ function Header({
           end={
             <AutoComplete
               field="LocalizedName"
-              value={city}
+              value={query}
               suggestions={places}
               placeholder="Cerca una città"
-              completeMethod={handleSearchSuggestions}
+              completeMethod={handleCompleteMethod}
               onChange={handleAutoCompleteChange}
             />
           }

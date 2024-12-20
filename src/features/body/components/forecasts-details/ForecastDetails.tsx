@@ -8,18 +8,14 @@ import { City } from "../../../../models/City";
 import { Button } from "primereact/button";
 import { formatDateDay } from "../../../../shared/functions/formatDateDay";
 import WeatherIcon from "../../../../shared/components/weather-icon/WeatherIcon";
+import { getCityStore } from "../../../../redux/city/citySlice";
+import { useSelector } from "react-redux";
+import { WeatyherState } from "../../../../redux/weather-store";
 
-function ForecastDetails({
-  city,
-  forecasts,
-}: {
-  city: City | null;
-  forecasts: Forecasts | null;
-}) {
+function ForecastDetails({ forecasts }: { forecasts: Forecasts }) {
+  const city: City = useSelector<WeatyherState>(getCityStore);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [dailyForecast, setDailyForecast] = useState<DailyForecast | null>(
-    null
-  );
+  const [dailyForecast, setDailyForecast] = useState<DailyForecast>(null);
 
   useEffect(() => {
     if (!modalVisible) {

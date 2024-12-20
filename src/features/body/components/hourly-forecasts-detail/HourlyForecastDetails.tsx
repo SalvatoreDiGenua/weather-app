@@ -15,13 +15,13 @@ function HourlyForecastDetails({
   modalVisible,
   updateModalVisible,
 }: {
-  cityKey: string | null;
-  dailyForecast: DailyForecast | null;
+  cityKey: string;
+  dailyForecast: DailyForecast;
   modalVisible: boolean;
   updateModalVisible: Dispatch<SetStateAction<boolean>>;
 }) {
   const [hourlyForecasts, setHourlyForecasts] = useState<
-    HourlyForecast[] | null
+    HourlyForecast[]
   >(null);
 
   useEffect(() => {

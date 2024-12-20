@@ -5,7 +5,7 @@ import { TopCity } from "../../../../models/TopCity";
 import WeatherIcon from "../../../../shared/components/weather-icon/WeatherIcon";
 
 function ForecastTopCities() {
-  const [topCities, setTopCities] = useState<TopCity[] | null>(null);
+  const [topCities, setTopCities] = useState<TopCity[]>(null);
 
   useEffect(() => {
     getTopCities().then(setTopCities);

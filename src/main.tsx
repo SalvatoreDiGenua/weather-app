@@ -4,12 +4,12 @@ import "./index.scss";
 import App from "./App.tsx";
 import { PrimeReactProvider } from "primereact/api";
 import { Provider } from "react-redux";
-import store from "./redux/store.ts";
+import weatherStore from "./redux/weather-store.ts";
 
 createRoot(document.getElementById("weather-root")!).render(
   <StrictMode>
     <PrimeReactProvider>
-      <Provider store={store}>
+      <Provider store={weatherStore}>
         <App />
       </Provider>
     </PrimeReactProvider>

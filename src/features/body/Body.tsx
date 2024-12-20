@@ -10,11 +10,16 @@ import {
 } from "../../services/weather.service";
 import WeatherIcon from "../../shared/components/weather-icon/WeatherIcon";
 import ForecastTopCities from "./components/forecasts-top-cities/ForecastTopCities";
+import { useSelector } from "react-redux";
+import { getCityStore } from "../../redux/city/citySlice";
+import { WeatyherState } from "../../redux/weather-store";
 
-function Body({ city }: { city: City | null }) {
+function Body() {
+  const city: City = useSelector<WeatyherState>(getCityStore);
+
   const [currentCondition, setCurrentCondition] =
-    useState<CurrentCondition | null>(null);
-  const [forecasts, setForecasts] = useState<Forecasts | null>(null);
+    useState<CurrentCondition>(null);
+  const [forecasts, setForecasts] = useState<Forecasts>(null);
 
   useEffect(() => {
     if (!city?.Key) {
@@ -44,7 +49,7 @@ function Body({ city }: { city: City | null }) {
         )}
         <div className="weather-body__forecasts">
           {forecasts ? (
-            <ForecastDetails city={city} forecasts={forecasts} />
+            <ForecastDetails forecasts={forecasts}/>
           ) : (
             <ForecastTopCities />
           )}
